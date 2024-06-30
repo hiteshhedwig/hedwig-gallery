@@ -1,6 +1,0 @@
-[submodule "themes/LoveIt"]
-	path = themes/LoveIt
-	url = https://github.com/hiteshhedwig/LoveIt.git
-[submodule "themes/hugo-shortcode-gallery"]
-	path = themes/hugo-shortcode-gallery
-	url = https://github.com/hiteshhedwig/hugo-shortcode-gallery.git
