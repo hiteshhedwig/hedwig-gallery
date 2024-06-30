@@ -3,7 +3,7 @@ title = "Hedwig's Gallery"
 slug = "gallery"
 +++
 
-This is my photoblog. 
+This is my photoblog.
 
 I have a passion for photography with mobile cameras(saving for dslr rn). I am using `pixel 7` to capture events i find beautiful and pleasing to the eye. I am still not perfect but i do which i enjoy.
 
