@@ -2,3 +2,5 @@ baseURL = 'https://hitesh.one/hedwig-gallery/'
 languageCode = 'en-us'
 title = ' '
 theme = ["hugo-shortcode-gallery", "LoveIt"]
+
+timeout = 60000
