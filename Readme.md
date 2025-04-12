@@ -13,3 +13,4 @@ This is a Hugo-based photoblog that uses the [Hugo Shortcode Gallery](https://gi
 - [License](#license)
 
 
+hugo serve

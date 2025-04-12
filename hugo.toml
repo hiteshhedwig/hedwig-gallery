@@ -2,5 +2,12 @@ baseURL = 'https://hitesh.one/hedwig-gallery/'
 languageCode = 'en-us'
 title = ' '
 theme = ["hugo-shortcode-gallery", "LoveIt"]
-
 timeout = 60000
+
+# Add these new video gallery parameters
+[params]
+  # Video gallery options
+  galleryVideoControls = false  # Hide video controls in gallery view
+  galleryVideoAutoplay = true   # Enable autoplay in lightbox view
+  galleryVideoLoop = true       # Loop videos
+  galleryVideoMuted = true      # Mute videos by default

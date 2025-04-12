@@ -4,7 +4,7 @@
 {{ if .Get "match"}}
 	{{ $images = (.Page.Resources.Match (.Get "match")) }}
 {{ else }}
-	{{ $images = (.Page.Resources.ByType "image") }}
+	{{ $images = (.Page.Resources) }}
 {{ end }}
 
 {{ $filterOptions := .Get "filterOptions" | default (.Site.Params.galleryFilterOptions | default "[]") }}
@@ -39,6 +39,14 @@
 {{ $embedPreview := .Get "embedPreview" | default (.Site.Params.galleryEmbedPreview | default true) }}
 
 {{ $thumbnailHoverEffect := .Get "thumbnailHoverEffect" | default (.Site.Params.galleryThumbnailHoverEffect | default "none") }}
+
+{{ $videoControls := .Get "videoControls" | default (.Site.Params.galleryVideoControls | default false) }}
+
+{{ $videoAutoplay := .Get "videoAutoplay" | default (.Site.Params.galleryVideoAutoplay | default true) }}
+
+{{ $videoLoop := .Get "videoLoop" | default (.Site.Params.galleryVideoLoop | default true) }}
+
+{{ $videoMuted := .Get "videoMuted" | default (.Site.Params.galleryVideoMuted | default true) }}
 
 <!-- hugos image processing saves images at resources/_gen/images, if the property resourceDir
 	 is changed in hugos config.toml file the images are save <resourceDir>/_gen/images.
@@ -81,7 +89,198 @@
 		/* inline css from assets folder */
 		{{ (resources.Get "shortcode-gallery/filterbar.sass" | toCSS).Content | safeCSS }}
 	{{ end }}
+	
+	/* Video styling */
+	.jg-entry video {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		cursor: pointer; /* Show pointer cursor on hover */
+	}
+	
+	.video-thumbnail {
+		position: relative;
+	}
+	
+	.video-thumbnail::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 10px 0 10px 20px;
+		border-color: transparent transparent transparent rgba(255, 255, 255, 0.8);
+		pointer-events: none;
+		z-index: 1;
+	}
+	
+	/* Remove play button when hovering for cleaner autoplay appearance */
+	.video-thumbnail:hover::after {
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+	
+	/* Custom Video Modal - Enhanced Styling */
+	.gallery-video-modal {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.85);
+		z-index: 9999;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		backdrop-filter: blur(5px);
+		transition: all 0.3s ease;
+	}
+
+	.gallery-video-container {
+		position: relative;
+		width: 85%;
+		max-width: 1200px;
+		max-height: 85vh;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+		background-color: #000;
+		transition: all 0.3s ease;
+	}
+
+	.gallery-video-container video {
+		width: 100%;
+		max-height: 85vh;
+		object-fit: contain;
+		background-color: #000;
+		display: block;
+	}
+
+	.gallery-video-close {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 28px;
+		cursor: pointer;
+		background-color: rgba(0, 0, 0, 0.5);
+		border: none;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s ease;
+		z-index: 10;
+	}
+
+	.gallery-video-close:hover {
+		color: #fff;
+		background-color: rgba(0, 0, 0, 0.8);
+		transform: scale(1.1);
+	}
+
+	.gallery-video-title {
+		color: white;
+		margin-bottom: 15px;
+		font-size: 18px;
+		text-align: center;
+		max-width: 80%;
+		font-weight: 300;
+		letter-spacing: 0.5px;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Video controls customization */
+	video::-webkit-media-controls-panel {
+		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+	}
+
+	/* Navigation buttons for multiple videos */
+	.gallery-video-nav {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 50px;
+		height: 50px;
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: 50%;
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 24px;
+		opacity: 0.7;
+		transition: all 0.2s ease;
+		z-index: 10;
+	}
+
+	.gallery-video-nav:hover {
+		opacity: 1;
+		background-color: rgba(0, 0, 0, 0.7);
+	}
+
+	.gallery-video-prev {
+		left: 20px;
+	}
+
+	.gallery-video-next {
+		right: 20px;
+	}
+
+	/* Loading indicator */
+	.gallery-video-loading {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 50px;
+		height: 50px;
+		border: 3px solid rgba(255, 255, 255, 0.3);
+		border-radius: 50%;
+		border-top-color: white;
+		animation: spin 1s linear infinite;
+		z-index: 5;
+	}
+
+	@keyframes spin {
+		to { transform: translate(-50%, -50%) rotate(360deg); }
+	}
+
+	/* Animation for modal opening */
+	.gallery-video-modal.show {
+		animation: fadeIn 0.3s ease forwards;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
 </style>
+
+<!-- Custom Video Modal (added once per page) -->
+{{ if not (.Page.Scratch.Get "videoModalAdded") }}
+    {{ .Page.Scratch.Set "videoModalAdded" true }}
+    <div id="gallery-video-modal" class="gallery-video-modal">
+        <div class="gallery-video-title" id="gallery-video-title"></div>
+        <div class="gallery-video-container">
+            <button class="gallery-video-close">&times;</button>
+            <div id="gallery-video-loading" class="gallery-video-loading" style="display: none;"></div>
+            <video id="gallery-video-player" controls {{ if $videoAutoplay }}autoplay{{ end }} {{ if $videoLoop }}loop{{ end }} {{ if $videoMuted }}muted{{ end }} playsinline>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="gallery-video-nav gallery-video-prev" style="display: none;">&lsaquo;</button>
+            <button class="gallery-video-nav gallery-video-next" style="display: none;">&rsaquo;</button>
+        </div>
+    </div>
+{{ end }}
 
 <!--
 Ordinal increases every time this shortcode is used in a document
@@ -92,11 +291,19 @@ Ordinal: {{ .Ordinal}}
 
 <div id="{{ $galleryWrapperId }}" class="gallery-wrapper">
 <div id="{{ $galleryId }}" class="justified-gallery">
-	{{ range $original := sort $images "Name" $sortOrder}}
-		{{ if eq $original.ResourceType "image" }}
+	{{ range $resource := sort $images "Name" $sortOrder }}
+		{{ $isVideo := false }}
+		{{ if $resource.ResourceType }}
+			{{ if eq $resource.ResourceType "image" }}
+				{{ $isVideo = false }}
+			{{ else if in "video/mp4 video/webm video/ogg" $resource.MediaType.Type }}
+				{{ $isVideo = true }}
+			{{ end }}
+		{{ end }}
 		
+		{{ if or (eq $resource.ResourceType "image") $isVideo }}
 			{{/* Get metadata from sidecar file, if present. Else an empty dictionary is used. */}}	
-			{{ $metaFileName := print $original.Name ".meta"}}
+			{{ $metaFileName := print $resource.Name ".meta"}}
 			{{ $metadata := $currentPage.Page.Resources.GetMatch ($metaFileName) }}
 			{{ if $metadata }}
 				{{ $metadata = $metadata.Content }}
@@ -105,97 +312,131 @@ Ordinal: {{ .Ordinal}}
 				{{ $metadata = dict }}
 			{{ end }}
 
-			{{/* If the image has EXIF informations, those are merged together with the metadata from the file */}}
-			{{ if in "jpg jpeg tiff" $original.MediaType.SubType }}
-				{{ with $original.Exif }}
-					{{ $metadata = merge .Tags $metadata }}
-				{{ end }}
-			{{ end }}
-
-
-			{{/* Correct orientation of the image, this is needed for thumbnails (and downscaled gallery images)
-				 if the EXIF informations contains an orientation value. See issue #22. */}}
-			{{ $rotated := $original.Filter images.AutoOrient }}
-
-			<div>
-				{{ $full := "" }}
-				{{ if $imageResizeOptions }}
-					{{/* Downscale gallery image, rotate it if needed */}}
-					{{ $full = ($rotated.Fit $imageResizeOptions) }}
-				{{ else }}
-					{{/* No need to use the rotated here, the browser will handle care of EXIF orientation */}}
-					{{ $full = $original }}
-				{{ end }}
-
-				{{ $thumbnail := "" }}
-				{{ if eq $thumbnailResizeOptions "original" }}
-					{{/* If thumbnailResizeOptions is set to 'original', use the original (unmodified) image for the thumbnail */}}
-					{{ $thumbnail = $original }}
-				{{ else  if eq $thumbnailResizeOptions "full" }}
-					{{/* If thumbnailResizeOptions is set to 'full', use the same image as the lightbox for the thumbnail */}}
-					{{ $thumbnail = $full }}
-				{{ else }}
-					{{/* Create thumbnail, rotate it if needed */}}
-					{{ $thumbnail = ($rotated.Fit $thumbnailResizeOptions) }}
-				{{ end }}
-
-				<a href="{{ $full.RelPermalink }}" 
-					class="galleryImg"
-					{{ with $metadata }}
-						{{ if .Title }}
-							title="{{ .Title }}"
-						{{ else if .ImageDescription }}
-							title="{{ .ImageDescription }}"
-						{{ end }}
-
-						{{ if $showExif }}
-							data-description="{{ .Model }}{{ if and .Model .LensModel }} + {{ end }}{{ .LensModel }}<br/>{{ if .FocalLength }}{{ .FocalLength }}mm {{ end }}{{ if .FNumber }}f/{{ .FNumber }} {{ end }}{{ if .ExposureTime }}{{ .ExposureTime }}sec {{ end }} {{ if .ISOSpeedRatings }}ISO {{ .ISOSpeedRatings }}{{ end }}"
-						{{ end }}
-
-						{{ if not (eq $filterOptions "[]")  }}
-							{{/* only include fields that are currently supported by the filter mechanism (in JS at the end of the file) */}}
-							data-meta="{{ (dict "Tags" $metadata.Tags "Rating" $metadata.Rating "ColorLabels" $metadata.ColorLabels "ImageDescription" $metadata.ImageDescription) | jsonify }}"
-						{{ end }}
-					{{ end }}
-					>
-					<img			
-						width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}"
-
-						{{ if (eq $previewType "blur") }}
-							{{ $preview_b := ($thumbnail.Fit ("32x32 q70 box jpg")) }}
-							style="filter: blur(25px);"
-							{{ if $embedPreview }}
-								src="data:image/jpeg;base64,{{ $preview_b.Content | base64Encode }}"
-							{{ else }}
-								src="{{ $preview_b.RelPermalink }}"
-							{{ end }}
-							class="lazy"
-							data-src="{{ $thumbnail.RelPermalink }}"
-						{{ else if (eq $previewType "color") }}
-							{{ $preview_1p := ($thumbnail.Resize ("1x1 box png")) }}
-							{{ if $embedPreview }}
-								src="data:image/png;base64,{{ $preview_1p.Content | base64Encode }}"
-							{{ else }}
-								src="{{ $preview_1p.RelPermalink }}"
-							{{ end }}
-							class="lazy"
-							data-src="{{ $thumbnail.RelPermalink }}"
-						{{ else }}
-							src="{{ $thumbnail.RelPermalink }}"
-						{{ end }}
-
+			{{ if $isVideo }}
+				<!-- Video Element -->
+				<div>
+					<a href="{{ $resource.RelPermalink }}" 
+						class="videoItem"
+						data-video="true"
 						{{ with $metadata }}
-							{{ if .ImageDescription }}
-								alt="{{ .ImageDescription }}"
-					     		{{ else }}
-								{{ if .Title}}
-									alt="{{ .Title }}"
+							{{ if .Title }}
+								data-title="{{ .Title }}"
+							{{ else if .Description }}
+								data-title="{{ .Description }}"
+							{{ end }}
+							
+							{{ if not (eq $filterOptions "[]") }}
+								data-meta="{{ (dict "Tags" $metadata.Tags "Rating" $metadata.Rating "ColorLabels" $metadata.ColorLabels "Description" $metadata.Description) | jsonify }}"
+							{{ end }}
+						{{ end }}>
+						<div class="video-thumbnail">
+							<video
+								preload="metadata"
+								width="300"
+								height="150"
+								{{ if $videoControls }}controls{{ end }}
+								muted
+								playsinline
+								class="gallery-video"
+								poster="{{ if $metadata.Poster }}{{ $metadata.Poster }}{{ end }}">
+								<source src="{{ $resource.RelPermalink }}" type="{{ $resource.MediaType.Type }}">
+								Your browser does not support the video tag.
+							</video>
+						</div>
+					</a>
+				</div>
+			{{ else }}
+				{{/* If the image has EXIF information, those are merged together with the metadata from the file */}}
+				{{ if in "jpg jpeg tiff" $resource.MediaType.SubType }}
+					{{ with $resource.Exif }}
+						{{ $metadata = merge .Tags $metadata }}
+					{{ end }}
+				{{ end }}
+
+				{{/* Correct orientation of the image, this is needed for thumbnails (and downscaled gallery images)
+					if the EXIF information contains an orientation value. See issue #22. */}}
+				{{ $rotated := $resource.Filter images.AutoOrient }}
+
+				<div>
+					{{ $full := "" }}
+					{{ if $imageResizeOptions }}
+						{{/* Downscale gallery image, rotate it if needed */}}
+						{{ $full = ($rotated.Fit $imageResizeOptions) }}
+					{{ else }}
+						{{/* No need to use the rotated here, the browser will handle care of EXIF orientation */}}
+						{{ $full = $resource }}
+					{{ end }}
+
+					{{ $thumbnail := "" }}
+					{{ if eq $thumbnailResizeOptions "original" }}
+						{{/* If thumbnailResizeOptions is set to 'original', use the original (unmodified) image for the thumbnail */}}
+						{{ $thumbnail = $resource }}
+					{{ else  if eq $thumbnailResizeOptions "full" }}
+						{{/* If thumbnailResizeOptions is set to 'full', use the same image as the lightbox for the thumbnail */}}
+						{{ $thumbnail = $full }}
+					{{ else }}
+						{{/* Create thumbnail, rotate it if needed */}}
+						{{ $thumbnail = ($rotated.Fit $thumbnailResizeOptions) }}
+					{{ end }}
+
+					<a href="{{ $full.RelPermalink }}" 
+						class="galleryImg"
+						{{ with $metadata }}
+							{{ if .Title }}
+								title="{{ .Title }}"
+							{{ else if .ImageDescription }}
+								title="{{ .ImageDescription }}"
+							{{ end }}
+
+							{{ if $showExif }}
+								data-description="{{ .Model }}{{ if and .Model .LensModel }} + {{ end }}{{ .LensModel }}<br/>{{ if .FocalLength }}{{ .FocalLength }}mm {{ end }}{{ if .FNumber }}f/{{ .FNumber }} {{ end }}{{ if .ExposureTime }}{{ .ExposureTime }}sec {{ end }} {{ if .ISOSpeedRatings }}ISO {{ .ISOSpeedRatings }}{{ end }}"
+							{{ end }}
+
+							{{ if not (eq $filterOptions "[]")  }}
+								{{/* only include fields that are currently supported by the filter mechanism (in JS at the end of the file) */}}
+								data-meta="{{ (dict "Tags" $metadata.Tags "Rating" $metadata.Rating "ColorLabels" $metadata.ColorLabels "ImageDescription" $metadata.ImageDescription) | jsonify }}"
+							{{ end }}
+						{{ end }}
+						>
+						<img			
+							width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}"
+
+							{{ if (eq $previewType "blur") }}
+								{{ $preview_b := ($thumbnail.Fit ("32x32 q70 box jpg")) }}
+								style="filter: blur(25px);"
+								{{ if $embedPreview }}
+									src="data:image/jpeg;base64,{{ $preview_b.Content | base64Encode }}"
+								{{ else }}
+									src="{{ $preview_b.RelPermalink }}"
+								{{ end }}
+								class="lazy"
+								data-src="{{ $thumbnail.RelPermalink }}"
+							{{ else if (eq $previewType "color") }}
+								{{ $preview_1p := ($thumbnail.Resize ("1x1 box png")) }}
+								{{ if $embedPreview }}
+									src="data:image/png;base64,{{ $preview_1p.Content | base64Encode }}"
+								{{ else }}
+									src="{{ $preview_1p.RelPermalink }}"
+								{{ end }}
+								class="lazy"
+								data-src="{{ $thumbnail.RelPermalink }}"
+							{{ else }}
+								src="{{ $thumbnail.RelPermalink }}"
+							{{ end }}
+
+							{{ with $metadata }}
+								{{ if .ImageDescription }}
+									alt="{{ .ImageDescription }}"
+								{{ else }}
+									{{ if .Title}}
+										alt="{{ .Title }}"
+									{{ end }}
 								{{ end }}
 							{{ end }}
-						{{ end }}
-					>
-				</a>
-			</div>
+						>
+					</a>
+				</div>
+			{{ end }}
 		{{ end }}
 	{{ end }}
 </div>
@@ -210,10 +451,6 @@ Ordinal: {{ .Ordinal}}
 	}
 
 	// Isolate all our variables from other scripts.
-	// See: https://www.nicoespeon.com/en/2013/05/properly-isolate-variables-in-javascript/
-	// We also expect to get jQuery as a parameter, so that if a second instance of jQuery is loaded
-	// after this script is executed (e.g. by a Hugo theme), we will still be referencing the previous
-	// version of jQuery that has all our plugins loaded.
 	;(function($) {
 
 		$( document ).ready(() => {
@@ -227,7 +464,7 @@ Ordinal: {{ .Ordinal}}
 			// else we can get a race condition and the listener is never called
 			gallery.on('jg.complete', () => {
 				{{ if or (eq $previewType "blur") (eq $previewType "color") }}
-					// if there is already some low resolution image data loaded, then we will wait for loading´
+					// if there is already some low resolution image data loaded, then we will wait for loading
 					// the hi-res until the justified gallery has done the layout
 					$(() => {
 						$('.lazy').Lazy({
@@ -237,11 +474,166 @@ Ordinal: {{ .Ordinal}}
 					});
 				{{ end }}
 
+				// Only use Swipebox for images, not videos
 				swipeboxInstance = $('.galleryImg').swipebox(
 					$.extend({},
 						{ {{ $swipeboxParameters | safeJS }} }
 					)
 				);
+				
+				// Enhanced video modal functionality
+				const videoModal = $('#gallery-video-modal');
+				const videoPlayer = $('#gallery-video-player');
+				const videoTitle = $('#gallery-video-title');
+				const videoLoading = $('#gallery-video-loading');
+				const videoPrev = $('.gallery-video-prev');
+				const videoNext = $('.gallery-video-next');
+				let currentVideoIndex = 0;
+				let videoItems = [];
+
+				// Close modal when clicking the X or pressing ESC
+				$('.gallery-video-close').on('click', () => {
+					closeVideoModal();
+				});
+
+				$(document).keyup(e => {
+					if (e.keyCode === 27) { // ESC key
+						closeVideoModal();
+					} else if (e.keyCode === 37) { // Left arrow
+						navigateVideo('prev');
+					} else if (e.keyCode === 39) { // Right arrow
+						navigateVideo('next');
+					}
+				});
+
+				// Function to close the video modal
+				function closeVideoModal() {
+					videoModal.fadeOut(300);
+					videoPlayer[0].pause();
+				}
+
+				// Function to navigate between videos
+				function navigateVideo(direction) {
+					if (videoItems.length <= 1) return;
+					
+					videoLoading.show();
+					
+					if (direction === 'next') {
+						currentVideoIndex = (currentVideoIndex + 1) % videoItems.length;
+					} else {
+						currentVideoIndex = (currentVideoIndex - 1 + videoItems.length) % videoItems.length;
+					}
+					
+					const videoSrc = $(videoItems[currentVideoIndex]).attr('href');
+					const title = $(videoItems[currentVideoIndex]).attr('data-title') || '';
+					
+					// Update video source and title
+					videoPlayer.find('source').attr('src', videoSrc);
+					videoTitle.text(title);
+					
+					// Reload the video with the new source
+					videoPlayer[0].load();
+					videoPlayer.on('canplay', function() {
+						videoLoading.hide();
+						if ({{ $videoAutoplay }}) {
+							videoPlayer[0].play();
+						}
+					});
+					
+					// Show loading state
+					videoPlayer.on('loadstart', function() {
+						videoLoading.show();
+					});
+					
+					// Hide loading state on error
+					videoPlayer.on('error', function() {
+						videoLoading.hide();
+						videoTitle.text('Error loading video');
+					});
+				}
+
+				// Enhanced handling for video items
+				$(document).on('click', '.videoItem', function(e) {
+					e.preventDefault();
+					
+					// Get all video items and current index
+					videoItems = $('.videoItem').toArray();
+					currentVideoIndex = videoItems.indexOf(this);
+					
+					const videoSrc = $(this).attr('href');
+					const title = $(this).attr('data-title') || '';
+					
+					// Update video source and title
+					videoPlayer.find('source').attr('src', videoSrc);
+					videoTitle.text(title);
+					
+					// Show loading indicator
+					videoLoading.show();
+					
+					// Reload the video with the new source
+					videoPlayer[0].load();
+					
+					// Hide loading indicator when video can play
+					videoPlayer.one('canplay', function() {
+						videoLoading.hide();
+					});
+					
+					// Show navigation buttons if we have multiple videos
+					if (videoItems.length > 1) {
+						videoPrev.show();
+						videoNext.show();
+					} else {
+						videoPrev.hide();
+						videoNext.hide();
+					}
+					
+					// Setup navigation buttons
+					videoPrev.off('click').on('click', function(e) {
+						e.stopPropagation();
+						navigateVideo('prev');
+					});
+					
+					videoNext.off('click').on('click', function(e) {
+						e.stopPropagation();
+						navigateVideo('next');
+					});
+					
+					// Show the modal with animation
+					videoModal.addClass('show').css('display', 'flex');
+					
+					// Play the video if autoplay is enabled
+					if ({{ $videoAutoplay }}) {
+						videoPlayer[0].play().catch(e => {
+							console.warn('Autoplay prevented:', e);
+						});
+					}
+					
+					return false;
+				});
+
+				// Add hover autoplay functionality for videos
+				$('.jg-entry').on('mouseenter', function() {
+					const video = $(this).find('video')[0];
+					if (video) {
+						video.play().catch(() => {
+							// Silently handle autoplay restrictions
+						});
+					}
+				}).on('mouseleave', function() {
+					const video = $(this).find('video')[0];
+					if (video) {
+						video.pause();
+					}
+				});
+				
+				// Prevent default behavior on video click
+				$(document).on('click', '.gallery-video', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					// Trigger click on parent link
+					$(this).closest('a').click();
+					return false;
+				});
 			});
 
 			// initialize the justified gallery
@@ -277,9 +669,11 @@ Ordinal: {{ .Ordinal}}
 						
 						let include = filterFunction(meta);
 
-						// only those images visible in justified gallery should be displayed
-						// in swipebox (only <a> with class galleryImg are displayed in swipebox)
-						$(entry).find("a").toggleClass("galleryImg", include);
+						// Toggle appropriate class for images vs videos
+						const isVideo = $(entry).find("a").hasClass("videoItem");
+						if (!isVideo) {
+							$(entry).find("a").toggleClass("galleryImg", include);
+						}
 
 						return include;
 					}
@@ -301,8 +695,8 @@ Ordinal: {{ .Ordinal}}
 				function createImageDescriptionFilter(descriptionRegexString) {
 					const descriptionRegex = RegExp(descriptionRegexString);
 					return createMetadataFilter(meta => {
-						let imageDescription = meta.ImageDescription;
-						return imageDescription !== null && descriptionRegex.test(imageDescription);
+						let description = meta.Description || meta.ImageDescription;
+						return description !== null && descriptionRegex.test(description);
 					});
 				};
 
@@ -416,7 +810,7 @@ Ordinal: {{ .Ordinal}}
 						{{ if $storeSelectedFilterInUrl }}
 							// save applied filter in browser url
 							const params = new URLSearchParams(location.hash.replace(/^\#/,""));
-							params.set('gallery-filter', filterConfig.label);+
+							params.set('gallery-filter', filterConfig.label);
 							window.history.replaceState("", "", location.pathname + location.search + "#" + params.toString());
 						{{ end }}
 					});
@@ -429,8 +823,5 @@ Ordinal: {{ .Ordinal}}
 			{{ end }}
 		});
 
-	// End of our variable-isolating and self-executing anonymous function.
-	// We call it with the one version of jQuery that was used to load our plugins.
-	// See: http://blog.nemikor.com/2009/10/03/using-multiple-versions-of-jquery/
 	})(window.HSCGjQuery)
 </script>
