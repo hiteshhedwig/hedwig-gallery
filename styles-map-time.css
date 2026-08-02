@@ -90,13 +90,13 @@
 .map-page .map-footer { border-top:0; background:var(--map-ink); font-family:var(--sans); }
 .map-page .map-footer > div { display:flex; gap:1.4rem; }
 
-@media (max-width:850px) {
-  .map-page .map-main { grid-template-columns:1fr; align-content:start; padding-top:1.5rem; }
+@media (max-width:1100px) {
+  .map-page .map-main { grid-template-columns:1fr; align-content:start; padding-top:1.25rem; overflow:visible; }
   .map-page .map-title { padding-top:.7rem; }
   .map-page .map-title h1 { margin:.45rem 0 .8rem; font-size:3.2rem; }
   .map-page .map-title::after { margin-top:.8rem; }
-  .map-page #globe-canvas { width:min(72vh,100%); margin-top:-1.5rem; }
-  .map-page .location-list { position:relative; right:auto; bottom:auto; width:100%; margin-top:-1rem; }
+  .map-page #globe-canvas { width:min(64vh,78vw,42rem); margin-top:-.5rem; }
+  .map-page .location-list { position:relative; right:auto; bottom:auto; width:min(42rem,100%); margin:.6rem auto 0; }
 }
 
 @media (max-width:560px) {
