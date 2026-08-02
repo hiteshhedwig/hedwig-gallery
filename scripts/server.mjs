@@ -16,7 +16,7 @@ const generator = join(root, "scripts", "generate-gallery.mjs");
 const videoGenerator = join(root, "scripts", "generate-videos.mjs");
 const mime = {
   ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8", ".webp": "image/webp", ".mp4": "video/mp4", ".webm": "video/webm", ".svg": "image/svg+xml", ".ico": "image/x-icon"
+  ".json": "application/json; charset=utf-8", ".png": "image/png", ".webp": "image/webp", ".mp4": "video/mp4", ".webm": "video/webm", ".svg": "image/svg+xml", ".ico": "image/x-icon"
 };
 const allowedImageUploads = new Set([".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff"]);
 const allowedVideoUploads = new Set([".mp4", ".mov", ".m4v", ".webm", ".mkv"]);
@@ -218,7 +218,7 @@ createServer(async (request, response) => {
       return;
     }
     const requested = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
-    const publicAsset = requested.startsWith("photos/") || requested.startsWith("videos/") || requested === "gallery.json" || requested === "videos.json" || requested === "map.bundle.js";
+    const publicAsset = requested.startsWith("photos/") || requested.startsWith("videos/") || requested.startsWith("favicon") || requested === "apple-touch-icon.png" || requested === "gallery.json" || requested === "videos.json" || requested === "map.bundle.js";
     const path = normalize(join(root, publicAsset ? `public/${requested}` : requested));
     if (!path.startsWith(root)) { response.writeHead(403).end("Forbidden"); return; }
     const fileStat = await stat(path);
