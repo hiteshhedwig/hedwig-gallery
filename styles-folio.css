@@ -1,0 +1,258 @@
+:root {
+  --folio-paper: #e9e5dc;
+  --folio-ink: #181917;
+  --folio-blue: #2448ff;
+  --folio-muted: #77776f;
+}
+
+.folio-page {
+  min-height: 100vh;
+  color: var(--folio-ink);
+  background:
+    linear-gradient(90deg, transparent calc(50% - .5px), rgba(24,25,23,.055) 50%, transparent calc(50% + .5px)),
+    var(--folio-paper);
+}
+
+.folio-page ::selection { color: #fff; background: var(--folio-blue); }
+
+.folio-page .site-header {
+  height: 4rem;
+  border-bottom: 1px solid rgba(24,25,23,.45);
+  background: rgba(233,229,220,.94);
+  backdrop-filter: blur(8px);
+}
+.folio-page .brand {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+}
+.folio-page .site-header nav { gap: .1rem; }
+.folio-page .site-header nav a {
+  min-width: 4.5rem;
+  padding: .5rem .65rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .54rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-align: center;
+}
+.folio-page .site-header nav a::after { display: none; }
+.folio-page .site-header nav a:hover,
+.folio-page .site-header nav a:focus-visible { color: var(--folio-blue); outline: 0; }
+.folio-page .site-header nav a.active { color: #fff; background: var(--folio-blue); }
+
+.folio-intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(7rem, .25fr) 1fr auto;
+  align-items: end;
+  min-height: 19rem;
+  padding: 2.2rem clamp(1rem,3.4vw,3.8rem) 2.6rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(24,25,23,.45);
+}
+.folio-mark {
+  align-self: start;
+  margin: 0;
+  color: var(--folio-blue);
+  font: 900 clamp(2.8rem,5vw,5.7rem)/.72 Arial, Helvetica, sans-serif;
+  letter-spacing: -.1em;
+}
+.folio-intro > div { display: flex; align-items: end; gap: clamp(2rem,6vw,8rem); }
+.folio-intro h1 {
+  margin: 0;
+  font: 800 clamp(4.2rem,8vw,8.8rem)/.67 Arial, Helvetica, sans-serif;
+  letter-spacing: -.085em;
+}
+.folio-intro h1 em {
+  color: var(--folio-blue);
+  font-family: var(--serif);
+  font-weight: 400;
+}
+.folio-intro > div > p {
+  max-width: 24ch;
+  margin: 0 0 .15rem;
+  font: 400 clamp(.9rem,1.15vw,1.1rem)/1.35 var(--serif);
+}
+.folio-intro > span {
+  margin-left: 2rem;
+  font: 700 .52rem/1.45 Arial, Helvetica, sans-serif;
+  letter-spacing: .12em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.selection {
+  padding: 2.2rem clamp(1rem,3.4vw,3.8rem) 3.4rem;
+  border-bottom: 1px solid rgba(24,25,23,.45);
+}
+.selection-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+}
+.selection-heading h2 {
+  margin: 0;
+  font: 800 clamp(1.4rem,2.4vw,2.6rem)/1 Arial, Helvetica, sans-serif;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+.selection-heading span {
+  color: var(--folio-muted);
+  font: 700 .5rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.feature-strip {
+  display: grid;
+  grid-template-columns: 1.3fr .72fr 1fr;
+  align-items: end;
+  gap: clamp(.7rem,1.4vw,1.5rem);
+}
+.feature-photo {
+  position: relative;
+  width: 100%;
+  padding: 0 0 1.4rem;
+  border: 0;
+  border-bottom: 1px solid var(--folio-ink);
+  background: transparent;
+  cursor: pointer;
+}
+.feature-photo:nth-child(2) { width: 82%; justify-self: center; margin-bottom: 2.5rem; }
+.feature-photo:nth-child(3) { margin-bottom: .8rem; }
+.feature-photo img {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  filter: saturate(.9);
+  transition: opacity .55s ease, transform .45s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+}
+.feature-photo img.loaded { opacity: 1; }
+.feature-photo span {
+  position: absolute;
+  right: 0;
+  bottom: .35rem;
+  color: var(--folio-blue);
+  font: 800 .54rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .1em;
+}
+.feature-photo:hover img,
+.feature-photo:focus-visible img { filter: none; transform: translateY(-.4rem); }
+.feature-photo:focus-visible { outline: 2px solid var(--folio-blue); outline-offset: .35rem; }
+
+.folio-page .frames { padding: 2rem clamp(.55rem,1.1vw,1.2rem) 5rem; }
+.folio-page .frames-bar {
+  align-items: end;
+  margin: 0 0 1.1rem;
+  padding: 0 .2rem 1.15rem;
+  border-bottom: 1px solid var(--folio-ink);
+}
+.folio-kicker {
+  margin: 0 0 .4rem !important;
+  color: var(--folio-blue) !important;
+  font-weight: 800 !important;
+}
+.folio-page .frames-bar h2 {
+  font: 800 clamp(2rem,3.6vw,4rem)/.85 Arial, Helvetica, sans-serif;
+  letter-spacing: -.07em;
+  text-transform: uppercase;
+}
+.folio-page .frames-bar #gallery-status {
+  margin-top: .55rem;
+  color: var(--folio-muted);
+  font: 700 .5rem/1 Arial, Helvetica, sans-serif;
+}
+.folio-page .filters { align-items: end; gap: .65rem; }
+.folio-page .filters label {
+  color: var(--folio-muted);
+  font: 700 .5rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .1em;
+}
+.folio-page .filters label span { display: block; margin: 0 0 .35rem; }
+.folio-page .filters select {
+  min-width: 9rem;
+  height: 2.25rem;
+  padding: .25rem 1.6rem .25rem .5rem;
+  border: 1px solid rgba(24,25,23,.6);
+  border-radius: 0;
+  background: transparent;
+  font-size: .64rem;
+}
+.folio-page .shuffle-button {
+  height: 2.25rem;
+  border: 1px solid var(--folio-blue);
+  color: #fff;
+  background: var(--folio-blue);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.folio-page .shuffle-button:hover,
+.folio-page .shuffle-button:focus-visible { color: var(--folio-blue); background: transparent; }
+
+.folio-page .masonry { column-gap: .7rem; }
+.folio-page .photo-card {
+  margin-bottom: .8rem;
+  padding: 0 0 1.05rem;
+  border-bottom: 1px solid rgba(24,25,23,.42);
+  background: transparent;
+  box-shadow: none;
+}
+.folio-page .photo-card > span {
+  right: auto;
+  bottom: .3rem;
+  left: 0;
+  padding: 0;
+  color: var(--folio-blue);
+  background: transparent;
+  font: 800 .48rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .1em;
+  opacity: 1;
+}
+.folio-page .photo-card:hover,
+.folio-page .photo-card:focus-visible {
+  z-index: 5;
+  outline: 0;
+  box-shadow: none;
+  transform: translateY(-.35rem);
+}
+.folio-page .photo-card:hover img,
+.folio-page .photo-card:focus-visible img { filter: saturate(1.08) contrast(1.02); }
+.folio-page .float-cursor { background: var(--folio-blue); }
+.folio-page footer { color: #fff; background: var(--folio-blue); }
+.folio-page .viewer-meta { border-top-color: #2948db; }
+.folio-page .viewer-meta span { color: #6980ff; }
+.folio-page .viewer-nav:hover,
+.folio-page .viewer-nav:focus-visible { color: #5572ff; }
+
+@media (max-width: 900px) {
+  .folio-intro { grid-template-columns: 6rem 1fr; }
+  .folio-intro > span { display: none; }
+  .folio-intro > div { display: block; }
+  .folio-intro > div > p { margin: 2.5rem 0 0 auto; }
+  .folio-page .frames-bar { display: block; }
+  .folio-page .filters { margin-top: 1.3rem; }
+}
+
+@media (max-width: 560px) {
+  .folio-page .site-header { padding-inline: .75rem; }
+  .folio-page .brand { width: 1.6rem; overflow: hidden; font-size: 0; }
+  .folio-page .brand::after { content: "HG"; font-size: .68rem; }
+  .folio-page .site-header nav { gap: 0; }
+  .folio-page .site-header nav a { min-width: 0; padding-inline: .18rem; font-size: .36rem; }
+  .folio-intro { grid-template-columns: 3.8rem 1fr; min-height: 14rem; padding: 1.7rem 1rem 2rem; }
+  .folio-mark { font-size: 2.5rem; }
+  .folio-intro h1 { font-size: 3.55rem; }
+  .folio-intro > div > p { max-width: 22ch; margin-top: 2rem; font-size: .82rem; }
+  .selection { padding: 1.5rem .7rem 2.2rem; }
+  .feature-strip { grid-template-columns: 1.3fr .78fr; gap: .55rem; }
+  .feature-photo:nth-child(2) { width: 100%; margin-bottom: 2rem; }
+  .feature-photo:nth-child(3) { grid-column: 1 / 3; width: 68%; margin: .2rem 0 0 auto; }
+  .folio-page .filters { display: grid; grid-template-columns: 1fr 1fr auto; }
+  .folio-page .filters select { width: 100%; min-width: 0; height: 2.1rem; }
+  .folio-page .shuffle-button { width: 2.5rem; height: 2.1rem; padding: 0; font-size: 0; }
+  .folio-page .shuffle-button span { font-size: 1rem; }
+  .folio-page .masonry { column-gap: .45rem; }
+  .folio-page .photo-card { margin-bottom: .55rem; padding-bottom: .9rem; }
+}

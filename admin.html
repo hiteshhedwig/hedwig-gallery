@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e8e6df">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Admin — Hedwig’s Gallery</title>
+    <link rel="stylesheet" href="/styles-admin.css?v=4">
+    <script type="module" src="/src/admin.js?v=4"></script>
+  </head>
+  <body>
+    <header class="admin-header">
+      <div><span>Local admin</span><h1>Hedwig’s Gallery</h1></div>
+      <a href="/">View gallery ↗</a>
+    </header>
+
+    <main>
+      <section class="upload-panel" aria-labelledby="upload-title">
+        <div>
+          <p class="eyebrow">Add media</p>
+          <h2 id="upload-title">Drop new frames here.</h2>
+          <p>Photographs or video. Admin uploads can be hidden, restored, or permanently deleted.</p>
+        </div>
+        <label class="drop-zone" id="drop-zone">
+          <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/tiff,video/mp4,video/quicktime,video/webm,.m4v,.mkv" multiple>
+          <span>Choose media</span>
+          <small>or drag and drop</small>
+        </label>
+        <div class="upload-progress" id="upload-progress" hidden><span></span><p></p></div>
+      </section>
+
+      <section class="library" aria-labelledby="library-title">
+        <div class="library-head">
+          <div><p class="eyebrow">Collection</p><h2 id="library-title">Visible media</h2><p id="library-count" aria-live="polite">Loading…</p></div>
+          <div class="library-tools">
+            <label><span>Search</span><input id="search-input" type="search" placeholder="File, place, camera…"></label>
+            <label><span>Set</span><select id="set-filter"><option value="all">All sets</option><option value="fujifilm">Fujifilm</option><option value="archive-1">Added photographs</option><option value="motion-fuji">Fuji motion</option><option value="motion">Other motion</option><option value="uploads">Photo uploads</option><option value="motion-uploads">Video uploads</option></select></label>
+            <button class="select-visible" id="select-visible" type="button">Select visible</button>
+          </div>
+        </div>
+        <div class="media-kind" id="media-kind" role="group" aria-label="Media type">
+          <button type="button" data-media="all" aria-pressed="true">All <b id="all-media-count">0</b></button>
+          <button type="button" data-media="photo" aria-pressed="false">Photos <b id="photo-media-count">0</b></button>
+          <button type="button" data-media="video" aria-pressed="false">Videos <b id="video-media-count">0</b></button>
+        </div>
+        <div class="admin-grid" id="admin-grid" aria-busy="true"></div>
+      </section>
+
+      <section class="removed" aria-labelledby="removed-title">
+        <button class="removed-toggle" id="removed-toggle" type="button" aria-expanded="false" aria-controls="removed-grid">
+          <span><small>Hidden</small><strong id="removed-title">Removed from gallery</strong></span><b id="removed-count">0</b>
+        </button>
+        <div class="removed-grid" id="removed-grid" hidden></div>
+      </section>
+    </main>
+
+    <dialog class="edit-dialog" id="edit-dialog" aria-labelledby="edit-title">
+      <form id="edit-form" method="dialog">
+        <div class="edit-head"><div><p class="eyebrow">Frame details</p><h2 id="edit-title">Edit frame</h2></div><button class="close-edit" value="cancel" aria-label="Close">×</button></div>
+        <div class="edit-preview"><img id="edit-image" alt=""><p id="edit-technical"></p></div>
+        <input id="edit-source-key" type="hidden">
+        <div class="edit-fields">
+          <label class="field-wide"><span>Title</span><input id="edit-title-field" type="text" placeholder="Optional title"></label>
+          <label><span>Capture date</span><input id="edit-date" type="datetime-local"></label>
+          <label><span>Location</span><input id="edit-location" type="text" placeholder="City, Country"></label>
+          <label><span>Latitude</span><input id="edit-latitude" type="number" step="any" placeholder="28.6139"></label>
+          <label><span>Longitude</span><input id="edit-longitude" type="number" step="any" placeholder="77.2090"></label>
+          <label class="field-wide"><span>Tags</span><input id="edit-tags" type="text" placeholder="street, delhi, monsoon"></label>
+        </div>
+        <div class="edit-actions"><button value="cancel">Cancel</button><button class="save-button" id="save-button" type="submit" value="default">Save changes</button></div>
+      </form>
+    </dialog>
+
+    <aside class="bulk-bar" id="bulk-bar" aria-label="Bulk actions" hidden>
+      <p><strong id="selected-count">0</strong> selected</p>
+      <div><button id="clear-selection" type="button">Clear</button><button class="bulk-hide" id="bulk-hide" type="button">Hide selected</button></div>
+    </aside>
+
+    <div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

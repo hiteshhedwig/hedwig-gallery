@@ -1,0 +1,307 @@
+:root {
+  --ledger-paper: #e8e0cf;
+  --ledger-ink: #183a31;
+  --ledger-faded: #6f7468;
+  --ledger-rule: rgba(24,58,49,.28);
+  --ledger-stamp: #b6462e;
+}
+
+.ledger-page {
+  min-height: 100vh;
+  color: var(--ledger-ink);
+  background-color: var(--ledger-paper);
+  background-image:
+    linear-gradient(rgba(24,58,49,.055) 1px, transparent 1px),
+    radial-gradient(rgba(41,35,24,.08) .5px, transparent .7px);
+  background-size: 100% 2rem, 5px 5px;
+}
+.ledger-page ::selection { color: #fff; background: var(--ledger-stamp); }
+
+.ledger-page .site-header {
+  height: 3.9rem;
+  border-bottom: 1px solid var(--ledger-ink);
+  background: rgba(232,224,207,.95);
+}
+.ledger-page .brand {
+  color: var(--ledger-ink);
+  font-family: "Courier New", monospace;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.ledger-page .site-header nav { gap: .15rem; }
+.ledger-page .site-header nav a {
+  min-width: 4.2rem;
+  padding: .48rem .55rem;
+  border: 1px solid transparent;
+  font-family: "Courier New", monospace;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-align: center;
+}
+.ledger-page .site-header nav a::after { display: none; }
+.ledger-page .site-header nav a:hover,
+.ledger-page .site-header nav a:focus-visible { border-color: var(--ledger-ink); outline: 0; }
+.ledger-page .site-header nav a.active { color: var(--ledger-paper); background: var(--ledger-ink); }
+
+.ledger-opening {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(16rem,.72fr) minmax(28rem,1.28fr);
+  align-items: center;
+  gap: clamp(2rem,6vw,8rem);
+  min-height: calc(100vh - 3.9rem);
+  padding: clamp(2rem,5vw,5rem) clamp(1rem,5vw,6rem);
+  overflow: hidden;
+  border-bottom: 1px solid var(--ledger-ink);
+}
+.ledger-signature { position: relative; z-index: 2; align-self: center; }
+.ledger-signature > p {
+  margin: 0 0 clamp(2rem,6vh,5rem);
+  color: var(--ledger-stamp);
+  font: italic 400 clamp(1rem,1.5vw,1.35rem)/1 var(--serif);
+}
+.ledger-signature h1 {
+  margin: 0;
+  font: 400 clamp(4.2rem,7vw,7.8rem)/.78 var(--serif);
+  letter-spacing: -.065em;
+}
+.ledger-signature > span {
+  display: block;
+  max-width: 27ch;
+  margin: 2.6rem 0 0 auto;
+  padding-left: 1rem;
+  border-left: 1px solid var(--ledger-stamp);
+  color: var(--ledger-faded);
+  font: 700 .66rem/1.55 "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.ledger-cover-photo { position: relative; z-index: 2; width: min(100%,58rem); justify-self: end; }
+.ledger-cover-photo::before {
+  content: "FIELD NOTE / 01";
+  position: absolute;
+  z-index: 3;
+  top: -.7rem;
+  right: -1rem;
+  padding: .35rem .55rem;
+  border: 1px solid var(--ledger-stamp);
+  color: var(--ledger-stamp);
+  background: var(--ledger-paper);
+  font: 700 .5rem/1 "Courier New", monospace;
+  letter-spacing: .1em;
+  transform: rotate(2deg);
+}
+.ledger-cover-photo .feature-photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: clamp(.45rem,1vw,.8rem) clamp(.45rem,1vw,.8rem) 2.2rem;
+  border: 1px solid var(--ledger-ink);
+  background: #eee8db;
+  box-shadow: clamp(.6rem,1.2vw,1.2rem) clamp(.6rem,1.2vw,1.2rem) 0 rgba(24,58,49,.9);
+  cursor: pointer;
+  transform: rotate(.35deg);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.ledger-cover-photo .feature-photo img { width: 100%; height: auto; opacity: 0; filter: saturate(.88); transition: opacity .5s ease, filter .3s ease; }
+.ledger-cover-photo .feature-photo img.loaded { opacity: 1; }
+.ledger-cover-photo .feature-photo span {
+  position: absolute;
+  right: .9rem;
+  bottom: .65rem;
+  color: var(--ledger-stamp);
+  font: 700 .55rem/1 "Courier New", monospace;
+}
+.ledger-cover-photo .feature-photo:hover,
+.ledger-cover-photo .feature-photo:focus-visible {
+  outline: 0;
+  box-shadow: 1rem 1rem 0 rgba(24,58,49,.9);
+  transform: translate(-.3rem,-.3rem) rotate(0);
+}
+.ledger-cover-photo .feature-photo:hover img { filter: none; }
+
+.route-mark {
+  position: absolute;
+  bottom: -1px;
+  left: 7%;
+  width: 45%;
+  height: 5rem;
+  border-top: 1px dashed var(--ledger-stamp);
+  border-radius: 50% 50% 0 0;
+  opacity: .65;
+  transform: rotate(-8deg);
+}
+.route-mark i {
+  position: absolute;
+  top: -.25rem;
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--ledger-stamp);
+}
+.route-mark i:nth-child(1) { left: 0; }
+.route-mark i:nth-child(2) { left: 48%; top: -2.5rem; }
+.route-mark i:nth-child(3) { right: 0; }
+
+.ledger-page .frames { padding: 2rem clamp(.8rem,2vw,2.2rem) 6rem; }
+.ledger-page .frames-bar {
+  align-items: end;
+  margin: 0 0 1.6rem;
+  padding: .4rem 0 1.2rem;
+  border-bottom: 1px solid var(--ledger-ink);
+}
+.ledger-kicker {
+  margin: 0 0 .65rem !important;
+  color: var(--ledger-stamp) !important;
+  font: 700 .52rem/1 "Courier New", monospace !important;
+}
+.ledger-page .frames-bar h2 {
+  font: 400 clamp(2.8rem,5vw,5.6rem)/.78 var(--serif);
+  letter-spacing: -.06em;
+}
+.ledger-page .frames-bar #gallery-status {
+  margin-top: .75rem;
+  color: var(--ledger-faded);
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+}
+.ledger-page .filters { align-items: end; gap: .6rem; }
+.ledger-page .filters label {
+  color: var(--ledger-faded);
+  font: 700 .5rem/1 "Courier New", monospace;
+}
+.ledger-page .filters label span { display: block; margin: 0 0 .35rem; }
+.ledger-page .filters select {
+  min-width: 9rem;
+  height: 2.25rem;
+  padding: .3rem 1.5rem .3rem .55rem;
+  border: 1px solid var(--ledger-ink);
+  border-radius: 0;
+  color: var(--ledger-ink);
+  background: rgba(232,224,207,.82);
+  font: 700 .61rem/1 "Courier New", monospace;
+}
+.ledger-page .shuffle-button {
+  height: 2.25rem;
+  border: 1px solid var(--ledger-ink);
+  color: var(--ledger-paper);
+  background: var(--ledger-ink);
+}
+.ledger-page .shuffle-button:hover,
+.ledger-page .shuffle-button:focus-visible { color: var(--ledger-ink); background: transparent; }
+
+.ledger-page .ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(12,minmax(0,1fr));
+  grid-auto-flow: dense;
+  grid-auto-rows: 4px;
+  gap: .7rem;
+  column-count: initial;
+}
+.ledger-page .photo-card {
+  align-self: start;
+  margin: 0;
+  padding: .45rem .45rem 2.65rem;
+  border: 1px solid rgba(24,58,49,.55);
+  background: #eee8db;
+  box-shadow: .28rem .3rem 0 rgba(24,58,49,.16);
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+  transform: rotate(var(--tilt));
+}
+.ledger-page .photo-card.ledger-wide { grid-column: span 12; width: min(84%,70rem); justify-self: center; }
+.ledger-page .photo-card.ledger-pair { grid-column: span 6; }
+.ledger-page .photo-card.ledger-third { grid-column: span 4; }
+.ledger-page .photo-card img { filter: saturate(.88) contrast(1.015); }
+.ledger-page .photo-card > span {
+  top: auto;
+  right: .55rem;
+  bottom: .55rem;
+  padding: 0;
+  color: var(--ledger-stamp);
+  background: transparent;
+  font: 700 .51rem/1 "Courier New", monospace;
+  opacity: 1;
+}
+.ledger-stamp {
+  position: absolute;
+  right: 2.7rem;
+  bottom: .48rem;
+  left: .55rem;
+  overflow: hidden;
+  color: var(--ledger-faded);
+  font: 700 .46rem/1.3 "Courier New", monospace;
+  letter-spacing: .04em;
+  text-align: left;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ledger-page .photo-card:hover,
+.ledger-page .photo-card:focus-visible {
+  outline: 1px solid var(--ledger-stamp);
+  outline-offset: .2rem;
+  box-shadow: .65rem .7rem 0 rgba(24,58,49,.24);
+  transform: translateY(-.45rem) rotate(0);
+}
+.ledger-page .photo-card:hover img,
+.ledger-page .photo-card:focus-visible img { filter: none; }
+.ledger-chapter {
+  grid-column: 1 / -1;
+  grid-row: span 9;
+  align-self: center;
+  margin: 1.5rem 0 .8rem;
+  padding: .4rem 0;
+  border-top: 1px solid var(--ledger-stamp);
+  border-bottom: 1px solid var(--ledger-stamp);
+  color: var(--ledger-stamp);
+  font: 700 .58rem/1 "Courier New", monospace;
+  letter-spacing: .18em;
+}
+.ledger-chapter::before { content: "CHAPTER / "; color: var(--ledger-faded); }
+.ledger-page .float-cursor { background: var(--ledger-stamp); }
+.ledger-page footer { color: var(--ledger-paper); background: var(--ledger-ink); font-family: "Courier New", monospace; font-weight: 700; }
+.ledger-page .viewer-meta { border-top-color: #744032; }
+.ledger-page .viewer-meta span { color: #c46b55; }
+.ledger-page .viewer-nav:hover,
+.ledger-page .viewer-nav:focus-visible { color: #d46a50; }
+
+@media (max-width: 900px) {
+  .ledger-opening { grid-template-columns: 1fr; align-content: start; gap: 2.5rem; min-height: auto; }
+  .ledger-signature { display: grid; grid-template-columns: 1fr 1fr; align-items: end; }
+  .ledger-signature > p { grid-column: 1 / 3; margin-bottom: 2rem; }
+  .ledger-signature > span { margin: 0 0 .4rem auto; }
+  .ledger-cover-photo { width: 86%; }
+  .ledger-page .frames-bar { display: block; }
+  .ledger-page .filters { margin-top: 1.3rem; }
+}
+
+@media (max-width: 560px) {
+  .ledger-page .site-header { padding-inline: .75rem; }
+  .ledger-page .brand { width: 1.6rem; overflow: hidden; font-size: 0; }
+  .ledger-page .brand::after { content: "HG"; font-size: .68rem; }
+  .ledger-page .site-header nav { gap: 0; }
+  .ledger-page .site-header nav a { min-width: 0; padding-inline: .18rem; font-size: .36rem; }
+  .ledger-opening { padding: 2rem 1rem 3.5rem; }
+  .ledger-signature { display: block; }
+  .ledger-signature > p { margin-bottom: 1.6rem; }
+  .ledger-signature h1 { font-size: 4.2rem; }
+  .ledger-signature > span { max-width: 23ch; margin-top: 2rem; font-size: .57rem; }
+  .ledger-cover-photo { width: calc(100% - .75rem); }
+  .route-mark { width: 70%; }
+  .ledger-page .filters { display: grid; grid-template-columns: 1fr 1fr auto; }
+  .ledger-page .filters select { width: 100%; min-width: 0; height: 2.1rem; }
+  .ledger-page .shuffle-button { width: 2.5rem; height: 2.1rem; padding: 0; font-size: 0; }
+  .ledger-page .shuffle-button span { font-size: 1rem; }
+  .ledger-page .ledger-grid { gap: .42rem; grid-auto-rows: 3px; }
+  .ledger-page .photo-card { padding: .26rem .26rem 2.3rem; }
+  .ledger-page .photo-card.ledger-wide { width: 100%; }
+  .ledger-page .photo-card.ledger-pair,
+  .ledger-page .photo-card.ledger-third { grid-column: span 6; }
+  .ledger-stamp { right: .35rem; bottom: 1rem; left: .35rem; font-size: .39rem; }
+  .ledger-page .photo-card > span { right: .35rem; bottom: .32rem; font-size: .44rem; }
+  .ledger-chapter { grid-row: span 10; margin-top: 1rem; }
+}

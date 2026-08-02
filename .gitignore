@@ -1,2 +1,6 @@
-public/*
-resources/*
+node_modules/
+_site/
+.DS_Store
+.hugo_build.lock
+res.txt
+content/uploads/

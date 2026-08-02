@@ -1,0 +1,19 @@
+{
+  "name": "hedwigs-gallery",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:photos": "node scripts/generate-gallery.mjs && node scripts/generate-videos.mjs",
+    "build:client": "node scripts/build-client.mjs",
+    "dev": "node scripts/server.mjs",
+    "start": "node scripts/server.mjs",
+    "build": "node scripts/generate-gallery.mjs --check && node scripts/generate-videos.mjs && node scripts/build-client.mjs"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "esbuild": "^0.28.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  }
+}

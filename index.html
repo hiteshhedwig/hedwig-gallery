@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e8e6df">
+    <meta name="description" content="Hedwig’s Gallery — photographs arranged through time.">
+    <title>Hedwig’s Gallery</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles-time.css">
+    <script type="module" src="/src/app.js"></script>
+  </head>
+  <body class="time-page">
+    <a class="skip-link" href="#frames">Skip to photographs</a>
+    <header class="site-header" id="top">
+      <a class="brand" href="/"><strong>Hedwig’s Gallery</strong><small>I like to capture quiet, serene, and captivating moments.</small></a>
+      <nav aria-label="Primary navigation">
+        <a href="/map.html">Map</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="frames time-index" id="frames" aria-labelledby="frames-title">
+        <div class="frames-bar">
+          <div>
+            <h2 id="frames-title">Time index</h2>
+            <p id="gallery-status" aria-live="polite">Loading…</p>
+          </div>
+          <div class="filters" aria-label="Gallery filters">
+            <label><span>Set</span><select id="collection-filter"><option value="all">All photographs · 150</option></select></label>
+            <label><span>Year</span><select id="year-filter"><option value="all">All</option></select></label>
+            <label><span>Place</span><select id="location-filter"><option value="all">Everywhere</option></select></label>
+            <label><span>Camera</span><select id="camera-filter"><option value="all">All cameras</option></select></label>
+            <button class="shuffle-button" id="shuffle-button" type="button"><span aria-hidden="true">↝</span> Mix years</button>
+          </div>
+          <label class="grid-tracer"><span>Frame size</span><input id="grid-scale" type="range" min="85" max="145" value="100" step="5"><output id="grid-scale-value" for="grid-scale">100%</output></label>
+        </div>
+        <div class="time-gallery" id="gallery" aria-busy="true"></div>
+      </section>
+    </main>
+
+    <footer><p>Hedwig’s Gallery</p><div><a href="/admin.html">Admin</a><a href="#top">Top ↑</a></div></footer>
+    <div class="float-cursor" id="float-cursor" aria-hidden="true">View</div>
+
+    <dialog class="viewer" id="viewer" aria-label="Photograph viewer">
+      <div class="viewer-shell">
+        <div class="viewer-topbar">
+          <p id="viewer-position"></p>
+          <div>
+            <button class="icon-button" id="fullscreen-button" type="button" aria-label="Full screen" title="Full screen (F)">⛶</button>
+            <button class="icon-button close-button" id="close-button" type="button" aria-label="Close viewer" title="Close (Escape)">×</button>
+          </div>
+        </div>
+        <div class="viewer-stage" id="viewer-stage">
+          <div class="viewer-loading" id="viewer-loading" aria-hidden="true"></div>
+          <img id="viewer-image" alt="">
+          <button class="viewer-nav viewer-prev" id="prev-button" type="button" aria-label="Previous photograph">←</button>
+          <button class="viewer-nav viewer-next" id="next-button" type="button" aria-label="Next photograph">→</button>
+        </div>
+        <div class="viewer-meta" aria-label="Photograph metadata">
+          <div><span>Frame</span><strong id="meta-frame">—</strong></div>
+          <div><span>Camera</span><strong id="meta-camera">—</strong></div>
+          <div><span>Lens</span><strong id="meta-lens">—</strong></div>
+          <div><span>Exposure</span><strong id="meta-exposure">—</strong></div>
+          <div><span>Place</span><strong id="meta-location">Not recorded</strong></div>
+        </div>
+      </div>
+    </dialog>
+    <noscript><p class="noscript">JavaScript is needed to load the gallery.</p></noscript>
+  </body>
+</html>

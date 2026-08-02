@@ -1,0 +1,272 @@
+:root {
+  --darkroom-black: #090907;
+  --darkroom-paper: #d9d4c8;
+  --darkroom-muted: #77746d;
+  --safelight: #d43e2d;
+}
+
+.darkroom-page {
+  min-height: 100vh;
+  color: var(--darkroom-paper);
+  background-color: var(--darkroom-black);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(157, 28, 18, .12), transparent 38rem),
+    radial-gradient(rgba(255,255,255,.045) .55px, transparent .7px);
+  background-size: auto, 4px 4px;
+}
+
+.darkroom-page .site-header {
+  height: 3.8rem;
+  border-bottom: 1px solid #393732;
+  background: rgba(9,9,7,.96);
+}
+
+.darkroom-page .brand {
+  color: #d8d3c7;
+  font-family: "Courier New", monospace;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.darkroom-page .site-header nav { gap: .35rem; }
+.darkroom-page .site-header nav a {
+  min-width: 4.5rem;
+  padding: .45rem .65rem;
+  border: 1px solid transparent;
+  color: #827f77;
+  font-family: "Courier New", monospace;
+  font-size: .58rem;
+  font-weight: 700;
+  text-align: center;
+}
+.darkroom-page .site-header nav a:hover,
+.darkroom-page .site-header nav a:focus-visible { border-color: #66625a; color: #ded8cb; outline: none; }
+.darkroom-page .site-header nav a.active { border-color: var(--safelight); color: #f0c8bd; background: rgba(212,62,45,.1); }
+.darkroom-page .site-header nav a.active::after { display: none; }
+
+.darkroom-page .intro {
+  position: relative;
+  grid-template-columns: 1.15fr .85fr;
+  min-height: 13rem;
+  padding: 2.5rem clamp(1rem, 3.2vw, 3.5rem) 2rem;
+  overflow: hidden;
+  border-bottom: 1px solid #3a3833;
+}
+
+.darkroom-page .intro::after {
+  content: "";
+  position: absolute;
+  right: 5%;
+  bottom: -8rem;
+  width: 24rem;
+  height: 24rem;
+  border: 1px solid rgba(212,62,45,.2);
+  border-radius: 50%;
+  box-shadow: 0 0 5rem rgba(147,24,15,.08) inset;
+  pointer-events: none;
+}
+
+.darkroom-status {
+  position: absolute;
+  top: 1.25rem;
+  left: clamp(1rem, 3.2vw, 3.5rem);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: #76736c;
+  font: 700 .52rem/1 "Courier New", monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.darkroom-status span {
+  width: .45rem;
+  height: .45rem;
+  border-radius: 50%;
+  background: var(--safelight);
+  box-shadow: 0 0 .8rem rgba(212,62,45,.8);
+  animation: safelight-breathe 3s ease-in-out infinite;
+}
+
+.darkroom-page .intro h1 {
+  align-self: end;
+  margin: 0;
+  color: #ddd8cc;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(2.7rem, 4.5vw, 4.7rem);
+  font-weight: 800;
+  line-height: .84;
+  letter-spacing: -.07em;
+}
+.darkroom-page .intro h1 em {
+  position: relative;
+  margin-left: .08em;
+  color: #b8b2a7;
+  font-family: var(--serif);
+  font-weight: 400;
+}
+.darkroom-page .intro h1 em::after {
+  content: "";
+  position: absolute;
+  inset: -.15em -.2em -.08em;
+  border: 2px solid rgba(212,62,45,.72);
+  border-radius: 48% 53% 47% 51%;
+  transform: rotate(-4deg);
+}
+.darkroom-page .intro-note {
+  z-index: 1;
+  justify-self: end;
+  align-self: end;
+  max-width: 29ch;
+  margin: 0 1rem .2rem 0;
+  color: #8e8a81;
+  font: 700 .73rem/1.55 "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.darkroom-page .frames { padding: 1.5rem clamp(.5rem, 1vw, 1rem) 5rem; }
+.darkroom-page .frames-bar {
+  align-items: end;
+  margin: 0 0 1rem;
+  padding: 0 .2rem 1rem;
+  border-bottom: 1px solid #403d37;
+}
+.sheet-label {
+  margin: 0 0 .6rem;
+  color: var(--safelight);
+  font: 700 .5rem/1 "Courier New", monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.darkroom-page .frames-bar h2 {
+  margin: 0;
+  color: #d8d2c6;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(2.1rem, 3.6vw, 3.7rem);
+  font-weight: 900;
+  line-height: .85;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+.darkroom-page .frames-bar #gallery-status {
+  margin: .6rem 0 0;
+  color: #706d66;
+  font: 700 .52rem/1 "Courier New", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.darkroom-page .filters { align-items: end; gap: .55rem; }
+.darkroom-page .filters label {
+  color: #716e67;
+  font: 700 .51rem/1 "Courier New", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.darkroom-page .filters label span { display: block; margin: 0 0 .35rem .1rem; }
+.darkroom-page .filters select {
+  min-width: 9rem;
+  height: 2.2rem;
+  padding: .3rem 1.6rem .3rem .55rem;
+  border: 1px solid #4b4841;
+  border-radius: 0;
+  color: #bbb5aa;
+  background: #11110f;
+  font: 700 .62rem/1 "Courier New", monospace;
+}
+.darkroom-page .shuffle-button {
+  height: 2.2rem;
+  border: 1px solid var(--safelight);
+  color: #ddb8af;
+  background: rgba(154,31,21,.1);
+}
+.darkroom-page .shuffle-button:hover,
+.darkroom-page .shuffle-button:focus-visible { color: #0a0908; background: var(--safelight); }
+
+.darkroom-page .masonry { column-gap: .65rem; }
+.darkroom-page .photo-card {
+  margin-bottom: .65rem;
+  padding: .28rem .28rem 1.35rem;
+  overflow: visible;
+  outline: 1px solid #2f2d29;
+  background: #11110f;
+  box-shadow: 0 .4rem 1rem rgba(0,0,0,.2);
+}
+.darkroom-page .photo-card img {
+  filter: brightness(.68) saturate(.55) contrast(1.08);
+  transition: opacity .55s ease, transform .55s ease, filter .55s ease;
+}
+.darkroom-page .photo-card.visible img.loaded { opacity: .76; }
+.darkroom-page .photo-card > span {
+  right: auto;
+  bottom: .38rem;
+  left: .5rem;
+  padding: 0;
+  color: #6e6b64;
+  background: transparent;
+  font: 700 .49rem/1 "Courier New", monospace;
+  letter-spacing: .12em;
+  opacity: 1;
+}
+.darkroom-page .photo-card:nth-child(13n + 4)::after,
+.darkroom-page .photo-card:nth-child(17n + 8)::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: -.3rem;
+  border: 2px solid rgba(212,62,45,.55);
+  border-radius: 49% 52% 48% 51%;
+  transform: rotate(-1.5deg);
+  pointer-events: none;
+}
+.darkroom-page .photo-card:hover,
+.darkroom-page .photo-card:focus-visible {
+  z-index: 5;
+  outline: 1px solid #777269;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,.6), 0 0 1.4rem rgba(138,28,19,.11);
+}
+.darkroom-page .photo-card:hover img,
+.darkroom-page .photo-card:focus-visible img { opacity: 1; filter: none; }
+.darkroom-page .float-cursor { color: #e3d8cc; background: rgba(159,31,21,.92); box-shadow: 0 0 1.2rem rgba(212,62,45,.35); }
+
+.darkroom-page footer {
+  border-top: 1px solid #34322d;
+  color: #77736b;
+  background: #050504;
+  font-family: "Courier New", monospace;
+}
+.darkroom-page .viewer-meta { border-top-color: #6d211a; }
+.darkroom-page .viewer-meta > div { border-right-color: #3b201d; }
+.darkroom-page .viewer-meta span { color: #a04438; }
+
+@keyframes safelight-breathe {
+  0%, 100% { opacity: .65; box-shadow: 0 0 .5rem rgba(212,62,45,.5); }
+  50% { opacity: 1; box-shadow: 0 0 1rem rgba(212,62,45,.9); }
+}
+
+@media (max-width: 850px) {
+  .darkroom-page .intro { grid-template-columns: 1fr; min-height: 14rem; }
+  .darkroom-page .intro-note { justify-self: end; margin-top: 2.5rem; }
+  .darkroom-page .frames-bar { display: block; }
+  .darkroom-page .filters { margin-top: 1.3rem; }
+}
+
+@media (max-width: 560px) {
+  .darkroom-page .brand { width: 1.6rem; overflow: hidden; font-size: 0; }
+  .darkroom-page .brand::after { content: "HG"; font-size: .68rem; }
+  .darkroom-page .site-header nav { gap: .2rem; }
+  .darkroom-page .site-header nav a { min-width: 0; padding-inline: .18rem; font-size: .36rem; }
+  .darkroom-page .intro { min-height: 12rem; padding-top: 2.3rem; }
+  .darkroom-page .intro h1 { font-size: 2.45rem; white-space: nowrap; }
+  .darkroom-page .intro-note { width: calc(100% - 5rem); margin: 1.8rem 0 0; font-size: .65rem; }
+  .darkroom-page .filters { display: grid; grid-template-columns: 1fr 1fr auto; }
+  .darkroom-page .filters select { width: 100%; min-width: 0; height: 2.1rem; }
+  .darkroom-page .shuffle-button { width: 2.5rem; height: 2.1rem; padding: 0; font-size: 0; }
+  .darkroom-page .shuffle-button span { font-size: 1rem; }
+  .darkroom-page .masonry { column-gap: .42rem; }
+  .darkroom-page .photo-card { margin-bottom: .42rem; padding: .2rem .2rem 1.15rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .darkroom-status span { animation: none; }
+}
