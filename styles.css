@@ -131,7 +131,7 @@ footer a { text-underline-offset: .3rem; }
 .map-footer { border-top: 0; background: #111; font-family: "Courier New", monospace; font-weight: 700; }
 
 /* Viewer */
-.viewer { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0; border: 0; color: #f5f1e9; background: #10100f; }
+.viewer { width: 100%; max-width: none; height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; margin: 0; padding: 0; border: 0; color: #f5f1e9; background: #10100f; }
 .viewer::backdrop { background: #10100f; }
 .viewer-shell { position: relative; height: 100%; overflow: hidden; }
 .viewer-topbar { position: absolute; z-index: 5; inset: 0 0 auto; display: flex; justify-content: space-between; align-items: center; height: 3.7rem; padding: 0 1.4rem; background: linear-gradient(rgba(0,0,0,.6), transparent); }

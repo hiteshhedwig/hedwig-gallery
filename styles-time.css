@@ -79,7 +79,7 @@
 .time-year { display: grid; grid-template-columns: 3.3rem minmax(0,1fr); gap: .2rem; margin-bottom: .2rem; }
 .time-year-marker {
   position: sticky;
-  top: 4.25rem;
+  top: 7.5rem;
   align-self: start;
   min-height: 7rem;
   padding: .55rem .35rem;
@@ -138,7 +138,7 @@
 ::view-transition-old(root),::view-transition-new(root) { animation:none; }
 ::view-transition-group(*) { animation-duration:.48s; animation-timing-function:cubic-bezier(.2,.75,.2,1); }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .time-page .frames-bar { display:block; }
   .time-page .filters { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)) auto; margin-top: .55rem; }
   .time-page .filters select { width: 100%; }
@@ -146,7 +146,7 @@
   .time-page .shuffle-button span { font-size: .9rem; }
   .time-year { grid-template-columns: 2rem minmax(0,1fr); }
   .grid-tracer { margin-top:.55rem; }
-  .time-year-marker { top: 6.7rem; min-height: 6rem; padding-inline: .2rem; }
+  .time-year-marker { top: 7.5rem; min-height: 6rem; padding-inline: .2rem; }
   .time-year-marker span { left: .2rem; }
 }
 
