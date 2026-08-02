@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#efeee8">
+    <meta name="description" content="Photographed locations from Hedwig’s Gallery.">
+    <title>Map — Hedwig’s Gallery</title>
+    <link rel="stylesheet" href="/hedwig-gallery/styles.css">
+    <link rel="stylesheet" href="/hedwig-gallery/styles-map-time.css">
+    <script type="module" src="/hedwig-gallery/map.bundle.js"></script>
+  </head>
+  <body class="map-page">
+    <header class="site-header map-header">
+      <a class="brand" href="/hedwig-gallery/"><strong>Hedwig’s Gallery</strong><small>I like to capture quiet, serene, and captivating moments.</small></a>
+      <nav aria-label="Primary navigation">
+        <a href="/hedwig-gallery/">Gallery</a>
+      </nav>
+    </header>
+
+    <main class="map-main">
+      <div class="map-title">
+        <p>Photographed places</p>
+        <h1>Places.</h1>
+        <span id="place-count">Loading…</span>
+      </div>
+
+      <div class="globe-wrap">
+        <canvas id="globe-canvas" tabindex="0" role="img" aria-label="Interactive globe showing photographed locations. Drag or use arrow keys to rotate."></canvas>
+        <p class="globe-hint">Drag to rotate · Scroll to zoom</p>
+      </div>
+
+      <div class="location-list" id="location-list"></div>
+    </main>
+    <footer class="map-footer"><p>Hedwig’s Gallery</p><div><a href=" hidden>Admin</a><a href="/hedwig-gallery/">View photographs →</a></div></footer>
+  </body>
+</html>
